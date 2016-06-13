@@ -29,18 +29,7 @@ import common.MapTile;
 import common.ScanMap;
 import enums.Terrain;
 
-//Making an addition to this file to check whether a remote alternat push will change it
 
-// rearanged the 2nd and 3rd line in the following comment
-
-/**
- * The seed that this program is built on is a chat program example found here:
- * publishing their code examples
- *
- *
- * * http://cs.lmu.edu/~ray/notes/javanetexamples/ Many thanks to the authors
- * for
- */
 
 public class ROVER_15 {
 
@@ -89,9 +78,6 @@ public class ROVER_15 {
 																	// here
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
-
-		// Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
 		// Process all messages from server, wait until server requests Rover ID
 		// name
 		while (true) {
@@ -118,7 +104,6 @@ public class ROVER_15 {
 		int currentDir = 3;
 		Coord currentLoc = null;
 		Coord previousLoc = null;
-		// krish
 		// communicationWithJSON
 		// getting data from the globalMap. go in the following URL which is
 		// 23.551.155.186:3000/api/ to see the api instructions created by Sam
@@ -134,7 +119,6 @@ public class ROVER_15 {
 		// start Rover controller process
 		while (true) {
 			System.out.println(targets);
-
 			// currently the requirements allow sensor calls to be made with no
 			// simulated resource cost
 			JSONArray excavationJSONData = com.getGlobalMap();
@@ -207,8 +191,8 @@ public class ROVER_15 {
 				}
 
 			}
-
 			if (blocked_byNothing) {
+				//here we are communicating with an API to get the next target location and generating allowed directions to reach the target location
 				List<Integer> allowedDirections = getDirectionsToTargetLocation(targets, com, url, corp_secret);
 				for (Integer i : allowedDirections) {
 					if (i == 5) {
@@ -237,10 +221,6 @@ public class ROVER_15 {
 			if (!roverStuckIncurrentDir(currentDir, scanMapTiles, centerIndex)) {
 				out.println("MOVE " + cardinals[currentDir]);
 			}
-
-			// out.println("MOVE "+cardinals[currentDir]);
-
-			// another call for current location
 			out.println("LOC");
 			line = in.readLine();
 			if (line.startsWith("LOC")) {
@@ -384,7 +364,7 @@ public class ROVER_15 {
 	public static int getRandom(int max) {
 		return (int) (Math.random() * max);
 	}
-
+	// this function returns false if the next move of the rover is blocked by ROCK or another Rover or if the terrian is NONE
 	private boolean roverStuckIncurrentDir(int currentDir, MapTile[][] scanMapTiles, int centerIndex) {
 		boolean returnValue = false;
 		switch (cardinals[currentDir]) {
